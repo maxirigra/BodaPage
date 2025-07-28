@@ -184,19 +184,12 @@
     document.addEventListener('DOMContentLoaded', () => {
 
         // ==================================================================
-        // ==================================================================
-        //
-        //       AQUÍ VA LA CONEXIÓN - ¡ESTE ES EL LUGAR IMPORTANTE!
-        //
-        // PEGA AQUÍ LA URL DE TU APLICACIÓN WEB DE GOOGLE APPS SCRIPT
-        //
+        // CONFIGURACIÓN
+        // Asegúrate de que esta URL sea la correcta de tu implementación.
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4dIM4DWY8A5k28X4_gaejGiqYzsDzxrYeIytT5hPeRr3Dv8A_A6UsEtUNle4lxzoG/exec'; 
-        //
-        // ==================================================================
         // ==================================================================
 
-
-        let gifts = []; // El array de regalos empieza vacío, se llenará desde Google Sheets.
+        let gifts = [];
 
         // --- LÓGICA DEL CONTADOR ---
         const weddingDate = new Date('Oct 25, 2025 18:00:00').getTime();
@@ -225,13 +218,12 @@
         const confirmGiftBtn = document.getElementById('confirm-gift-button');
         let currentGiftId = null;
 
-        // Función para mostrar los regalos en la página
         function renderGifts() {
             if (!gifts || gifts.length === 0) {
                 giftListContainer.innerHTML = '<p class="col-span-full text-center">No hay regalos en la lista por el momento.</p>';
                 return;
             }
-            giftListContainer.innerHTML = ''; // Limpia la lista antes de volver a dibujarla
+            giftListContainer.innerHTML = '';
             gifts.forEach(gift => {
                 const isAvailable = gift.estado === 'Disponible';
                 const card = `
@@ -241,19 +233,15 @@
                         <span class="text-sm font-bold py-1 px-3 rounded-full ${isAvailable ? 'bg-green-200 text-green-800' : 'bg-gray-200 text-gray-500'}">
                             ${gift.estado}
                         </span>
-                        <button 
-                            class="gift-button mt-4 w-full bg-rose-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${isAvailable ? 'hover:bg-rose-800' : 'opacity-50 cursor-not-allowed'}"
-                            data-id="${gift.id}"
-                            ${!isAvailable ? 'disabled' : ''}>
+                        <button class="gift-button mt-4 w-full bg-rose-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${isAvailable ? 'hover:bg-rose-800' : 'opacity-50 cursor-not-allowed'}"
+                            data-id="${gift.id}" ${!isAvailable ? 'disabled' : ''}>
                             ${isAvailable ? 'Quiero Regalar Esto' : 'Ya fue obsequiado'}
                         </button>
-                    </div>
-                `;
+                    </div>`;
                 giftListContainer.innerHTML += card;
             });
         }
 
-        // Función para obtener los regalos desde la API de Google Sheets
         async function fetchGifts() {
             try {
                 const response = await fetch(SCRIPT_URL);
@@ -271,7 +259,6 @@
             }
         }
         
-        // Abrir el modal al hacer clic en un regalo
         giftListContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('gift-button')) {
                 currentGiftId = parseInt(e.target.dataset.id);
@@ -284,49 +271,53 @@
             }
         });
 
-        // Cerrar el modal
         closeModalBtn.addEventListener('click', () => paymentModal.classList.add('hidden'));
         paymentModal.addEventListener('click', (e) => {
             if (e.target === paymentModal) paymentModal.classList.add('hidden');
         });
 
-        // Confirmar el regalo y actualizar Google Sheets
+        // --- LÓGICA DE FORMULARIOS Y POST ---
+        // Esta es la función clave que ha sido modificada.
+        async function postData(data) {
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Importante para evitar ciertos errores de CORS con Apps Script
+                    redirect: 'follow', // Permite que fetch siga la redirección de Google
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8', // Cambiado para mayor compatibilidad
+                    },
+                    body: JSON.stringify(data)
+                });
+                // En modo 'no-cors', no podemos leer la respuesta, pero la petición se envía.
+                // Asumimos que fue exitosa si no hay un error de red.
+                return { success: true };
+            } catch (error) {
+                console.error("Error en postData:", error);
+                return { success: false, message: error.message };
+            }
+        }
+
         confirmGiftBtn.addEventListener('click', async () => {
             confirmGiftBtn.disabled = true;
             confirmGiftBtn.innerText = 'Confirmando...';
-
-            try {
-                // Se necesita un cuerpo para la solicitud POST
-                const postData = { action: 'updateGift', id: currentGiftId };
-                
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    // Google Apps Script puede ser quisquilloso con CORS.
-                    // A menudo, la redirección que hace para POST requiere este manejo.
-                    // Creamos un objeto FormData para evitar problemas de 'preflight'.
-                    body: JSON.stringify(postData),
-                    headers: { "Content-Type": "application/json" },
-                });
-
-                const result = await response.json();
-                if (!result.success) {
-                    throw new Error(result.message);
-                }
-
-                // Si la API confirma el éxito, actualizamos la lista de regalos y la volvemos a mostrar
-                await fetchGifts();
+            const result = await postData({ action: 'updateGift', id: currentGiftId });
+            if (result.success) {
+                // Para una mejor experiencia, actualizamos la UI inmediatamente
+                // y luego refrescamos los datos desde el servidor.
+                const giftIndex = gifts.findIndex(g => g.id === currentGiftId);
+                if (giftIndex !== -1) gifts[giftIndex].estado = 'Obsequiado';
+                renderGifts();
                 paymentModal.classList.add('hidden');
-
-            } catch (error) {
-                console.error('Error al confirmar regalo:', error);
+                // Opcional: volver a cargar todo para asegurar consistencia.
+                setTimeout(fetchGifts, 500); 
+            } else {
                 alert('Hubo un error al confirmar el regalo. Por favor, inténtalo de nuevo.');
-            } finally {
-                 confirmGiftBtn.disabled = false;
-                 confirmGiftBtn.innerText = 'Confirmar Obsequio';
             }
+            confirmGiftBtn.disabled = false;
+            confirmGiftBtn.innerText = 'Confirmar Obsequio';
         });
 
-        // --- LÓGICA DE FORMULARIOS (RSVP y Canciones) ---
         async function handleFormSubmit(form, feedbackElement, action) {
             const button = form.querySelector('button[type="submit"]');
             const originalButtonText = button.innerText;
@@ -337,30 +328,23 @@
             const data = Object.fromEntries(formData.entries());
             data.action = action;
 
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    headers: { "Content-Type": "application/json" },
-                });
-                const result = await response.json();
-                if (!result.success) throw new Error(result.message);
+            const result = await postData(data);
 
+            if (result.success) {
                 feedbackElement.textContent = '¡Gracias por tu mensaje!';
                 feedbackElement.className = 'text-center mt-4 font-bold text-green-600';
                 form.reset();
-            } catch (error) {
-                console.error(`Error al enviar ${action}:`, error);
+            } else {
                 feedbackElement.textContent = 'Hubo un error. Inténtalo de nuevo.';
                 feedbackElement.className = 'text-center mt-4 font-bold text-red-600';
-            } finally {
-                button.disabled = false;
-                button.innerText = originalButtonText;
-                setTimeout(() => {
-                    feedbackElement.textContent = '';
-                    feedbackElement.className = 'text-center mt-4 font-bold';
-                }, 4000);
             }
+            
+            button.disabled = false;
+            button.innerText = originalButtonText;
+            setTimeout(() => {
+                feedbackElement.textContent = '';
+                feedbackElement.className = 'text-center mt-4 font-bold';
+            }, 4000);
         }
 
         document.getElementById('rsvp-form').addEventListener('submit', (e) => {
@@ -373,7 +357,6 @@
             handleFormSubmit(e.target, document.getElementById('song-feedback'), 'suggestSong');
         });
 
-        // Carga inicial de regalos al cargar la página
         fetchGifts();
     });
     </script>
