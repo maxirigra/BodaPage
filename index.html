@@ -95,6 +95,19 @@
             </div>
         </section>
         
+        <!-- Ubicación y Mapa -->
+        <section class="my-20 text-center fade-in">
+            <h2 class="font-dancing text-6xl text-center mb-12">Ubicación</h2>
+            <div class="text-center mb-8">
+                <p class="text-2xl font-bold">Casona de Campo</p>
+                <p class="text-xl text-gray-600">Parcela 31, Lampa, Región Metropolitana</p>
+            </div>
+            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden border border-brand-gold shadow-lg">
+                <!-- MAPA ACTUALIZADO -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.9383633838423!2d-70.8488305234563!3d-33.24158407347104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662bf5306410197%3A0x67843472023a4844!2sCasona%20de%20Campo!5e0!3m2!1ses-419!2scl!4v1722179885525!5m2!1ses-419!2scl" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </section>
+
         <!-- Itinerario -->
         <section class="my-20 fade-in">
             <h2 class="font-dancing text-6xl text-center mb-12">Itinerario</h2>
@@ -146,7 +159,9 @@
             <i class="fas fa-camera-retro fa-3x text-brand-gold mb-4"></i>
             <h2 class="font-dancing text-6xl text-center mb-4">Sube tus Fotos</h2>
             <p class="text-xl max-w-md mx-auto mb-8">Sube y comparte con nosotros tus registros de fotos y videos en nuestro álbum colaborativo de bodas.</p>
-            <a href="#" id="album-link" class="inline-block bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Ir al Álbum <i class="fas fa-images ml-2"></i></a>
+            <!-- ENLACE PARA EL ÁLBUM DE FOTOS -->
+            <!-- Reemplaza "#" con el enlace a tu álbum compartido de Google Fotos -->
+            <a href="#" id="album-link" target="_blank" class="inline-block bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Ir al Álbum <i class="fas fa-images ml-2"></i></a>
         </section>
 
         <!-- Música -->
@@ -216,6 +231,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         // ==================================================================
         // CONFIGURACIÓN
+        // Pega aquí la URL de tu API de Google Apps Script.
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4dIM4DWY8A5k28X4_gaejGiqYzsDzxrYeIytT5hPeRr3Dv8A_A6UsEtUNle4lxzoG/exec'; 
         // ==================================================================
 
@@ -318,7 +334,7 @@
             const result = await postData({ action: 'updateGift', id: currentGiftId });
             if (result.success) {
                 paymentModal.classList.add('hidden');
-                fetchGifts(); // Recargar la lista de regalos
+                setTimeout(fetchGifts, 500); // Recargar la lista de regalos con un pequeño retraso
             } else {
                 alert('Hubo un error al confirmar el regalo.');
             }
@@ -358,15 +374,16 @@
 
         // --- LÓGICA DE MODALES ---
         const modalTriggers = document.querySelectorAll('.modal-trigger');
-        const closeModals = document.querySelectorAll('.close-modal, .modal-overlay, #payment-modal .close-modal');
+        const closeModals = document.querySelectorAll('.close-modal, .modal-overlay');
         modalTriggers.forEach(trigger => {
-            trigger.addEventListener('click', () => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
                 document.getElementById(trigger.getAttribute('data-modal')).classList.remove('hidden');
             });
         });
         closeModals.forEach(closer => {
             closer.addEventListener('click', (e) => {
-                if (e.target === closer) {
+                if (e.target === closer || closer.classList.contains('close-modal')) {
                     closer.closest('.modal-overlay').classList.add('hidden');
                 }
             });
