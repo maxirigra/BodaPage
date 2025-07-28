@@ -8,38 +8,64 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Montserrat & Dancing Script -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     
+    <!-- Font Awesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Estilos personalizados -->
     <style>
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Cormorant Garamond', serif;
+            background-color: #FBF9F5; /* Tono crema de fondo */
         }
         .font-dancing {
             font-family: 'Dancing Script', cursive;
         }
+        .text-brand-green { color: #4A5C47; }
+        .bg-brand-green { background-color: #4A5C47; }
+        .text-brand-gold { color: #B99A6E; }
+        .bg-brand-beige { background-color: #EAE3D9; }
+        .border-brand-gold { border-color: #B99A6E; }
+        
         .fade-in {
-            animation: fadeIn 1s ease-in-out;
+            animation: fadeIn 1.5s ease-in-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .modal-overlay {
             transition: opacity 0.3s ease;
         }
-        /* Loader para indicar que los regalos están cargando */
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            bottom: -10px;
+            width: 2px;
+            background-color: #B99A6E;
+        }
+        .timeline-item:last-child:before {
+            display: none;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            transform: translateX(-45%);
+        }
         .loader {
-            border: 4px solid #f3f3f3; /* gris claro */
-            border-top: 4px solid #be185d; /* color rosado/fucsia */
+            border: 4px solid #EAE3D9;
+            border-top: 4px solid #B99A6E;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+            width: 50px;
+            height: 50px;
+            animation: spin 1.2s linear infinite;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -47,124 +73,127 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-700">
+<body class="text-brand-green">
 
     <!-- Contenedor Principal -->
-    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+    <div class="container mx-auto p-4 md:p-8 max-w-3xl">
 
         <!-- Encabezado -->
-        <header class="text-center py-12 fade-in">
-            <h1 class="font-dancing text-6xl md:text-8xl text-rose-800">Patricio & Carolina</h1>
-            <p class="mt-4 text-2xl">¡Nos casamos!</p>
-            <p class="mt-2 text-lg">25 de Octubre, 2025</p>
+        <header class="text-center py-16 fade-in">
+            <h1 class="font-dancing text-7xl md:text-9xl text-brand-green">Patricio & Carolina</h1>
+            <p class="mt-4 text-3xl">¡Nos casamos!</p>
+            <p class="mt-2 text-xl tracking-widest">25 · OCT · 2025</p>
         </header>
 
         <!-- Contador Regresivo -->
-        <section id="countdown-section" class="text-center my-12 fade-in" style="animation-delay: 0.2s;">
-            <h2 class="text-3xl font-bold mb-6 text-gray-800">Cuenta Regresiva</h2>
-            <div class="grid grid-cols-4 gap-4 max-w-md mx-auto text-white">
-                <div class="bg-rose-700 p-4 rounded-lg shadow-lg"><div id="days" class="text-4xl font-bold">00</div><div class="text-sm">Días</div></div>
-                <div class="bg-rose-700 p-4 rounded-lg shadow-lg"><div id="hours" class="text-4xl font-bold">00</div><div class="text-sm">Horas</div></div>
-                <div class="bg-rose-700 p-4 rounded-lg shadow-lg"><div id="minutes" class="text-4xl font-bold">00</div><div class="text-sm">Minutos</div></div>
-                <div class="bg-rose-700 p-4 rounded-lg shadow-lg"><div id="seconds" class="text-4xl font-bold">00</div><div class="text-sm">Segundos</div></div>
-            </div>
-        </section>
-
-        <!-- Ubicación y Mapa -->
-        <section id="location" class="my-16 bg-white p-8 rounded-lg shadow-lg fade-in" style="animation-delay: 0.4s;">
-            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Ceremonia y Celebración</h2>
-            <div class="text-center mb-8">
-                <p class="text-lg"><strong>Fecha:</strong> Sábado, 25 de Octubre, 2025</p>
-                <p class="text-lg"><strong>Hora:</strong> 18:00 hrs</p>
-                <p class="text-lg"><strong>Lugar:</strong> Centro de Eventos "El Rincón Soñado"</p>
-                <p class="text-md text-gray-500">Camino a Farellones 12345, Lo Barnechea, Santiago</p>
-            </div>
-            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden border">
-                <iframe src="https://www.google.com/maps/place/Vi%C3%B1a+William+Cole,+Casablanca,+Valpara%C3%ADso/data=!4m2!3m1!1s0x966265b84493b347:0x7412c6d479bf74f2?utm_source=mstt_1&entry=gps&coh=192189&g_ep=CAESBzI1LjI5LjAYACCenQoqhwEsOTQyNzUzMTcsOTQyMjMyOTksOTQyMTY0MTMsOTQyODA1NzYsOTQyMTI0OTYsOTQyMDczOTQsOTQyMDc1MDYsOTQyMDg1MDYsOTQyMTc1MjMsOTQyMTg2NTMsOTQyMjk4MzksOTQyNzUxNjgsNDcwODQzOTMsOTQyMTMyMDAsOTQyNTgzMjVCAkNM&skid=3dd1eb2d-41aa-4595-aa4c-c131a1add3c9" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <section class="text-center my-16 fade-in">
+            <div id="countdown-section" class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-lg mx-auto text-brand-gold">
+                <div><div id="days" class="text-5xl font-semibold">00</div><div class="text-lg">días</div></div>
+                <div><div id="hours" class="text-5xl font-semibold">00</div><div class="text-lg">horas</div></div>
+                <div><div id="minutes" class="text-5xl font-semibold">00</div><div class="text-lg">minutos</div></div>
+                <div><div id="seconds" class="text-5xl font-semibold">00</div><div class="text-lg">segundos</div></div>
             </div>
         </section>
         
-        <!-- Confirmar Asistencia (RSVP) -->
-        <section id="rsvp" class="my-16 bg-white p-8 rounded-lg shadow-lg fade-in" style="animation-delay: 0.6s;">
-            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Confirma tu Asistencia</h2>
-            <form id="rsvp-form" class="max-w-xl mx-auto">
-                <div class="mb-4">
-                    <label for="guest-name" class="block text-gray-700 font-bold mb-2">Nombre Completo:</label>
-                    <input type="text" id="guest-name" name="nombre" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                </div>
-                <div class="mb-4">
-                    <label for="attendance" class="block text-gray-700 font-bold mb-2">¿Asistirás?</label>
-                    <select id="attendance" name="asistencia" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="Si">¡Sí, allí estaré!</option>
-                        <option value="No">No podré asistir</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label for="dietary" class="block text-gray-700 font-bold mb-2">¿Tienes algún requerimiento alimenticio?</label>
-                    <textarea id="dietary" name="requerimientos" rows="3" placeholder="Ej: Alergia a los frutos secos, vegetariano, etc." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-rose-700 hover:bg-rose-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
-                        Enviar Confirmación
-                    </button>
-                </div>
-            </form>
-            <div id="rsvp-feedback" class="text-center mt-4 font-bold"></div>
-        </section>
-
-        <!-- Lista de Regalos -->
-        <section id="gifts" class="my-16 fade-in" style="animation-delay: 0.8s;">
-            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Lista de Regalos</h2>
-            <p class="text-center max-w-2xl mx-auto mb-8">Su presencia es nuestro mejor regalo, pero si desean obsequiarnos algo, hemos preparado esta lista con mucho cariño. ¡Gracias por ser parte de nuestra historia!</p>
-            <div id="gift-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Loader mientras se cargan los regalos -->
-                <div class="loader col-span-full"></div>
+        <!-- Itinerario -->
+        <section class="my-20 fade-in">
+            <h2 class="font-dancing text-6xl text-center mb-12">Itinerario</h2>
+            <div class="max-w-md mx-auto relative pl-8">
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><p class="text-2xl font-bold">CITACIÓN</p><p class="text-xl">16:30 HRS.</p></div>
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><p class="text-2xl font-bold">CEREMONIA</p><p class="text-xl">17:30 HRS.</p></div>
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><p class="text-2xl font-bold">CÓCTEL</p><p class="text-xl">18:30 HRS.</p></div>
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><p class="text-2xl font-bold">CENA</p><p class="text-xl">21:00 HRS.</p></div>
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><p class="text-2xl font-bold">FIESTA</p><p class="text-xl">23:00 HRS.</p></div>
             </div>
         </section>
 
+        <!-- Dress Code -->
+        <section class="my-20 p-10 rounded-lg bg-brand-green text-white text-center fade-in">
+             <i class="fas fa-tshirt fa-3x text-brand-gold mb-4"></i>
+            <h2 class="text-4xl font-bold tracking-widest mb-4">DRESS CODE</h2>
+            <p class="text-xl max-w-md mx-auto">Ellos traje formal deberán usar, ellas de vestido largo estarán... y juntos puntualmente llegarán. En colores, lo que quieran menos color blanco o parecidos. Eso lo dejamos para la novia.</p>
+        </section>
+
+        <!-- Confirmar Asistencia (RSVP) -->
+        <section class="my-20 p-10 rounded-lg bg-brand-green text-white fade-in">
+            <h2 class="font-dancing text-6xl text-center mb-6">Confirma tu Asistencia</h2>
+            <p class="text-center mb-8">Rellena el siguiente formulario individualmente por cada persona que asistirá a la ceremonia.</p>
+            <form id="rsvp-form" class="max-w-md mx-auto space-y-6">
+                <input type="text" name="nombre" placeholder="Nombre y apellido" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold" required>
+                <input type="tel" name="telefono" placeholder="Teléfono" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold" required>
+                <select name="asistencia" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green focus:outline-none focus:ring-2 focus:ring-brand-gold">
+                    <option value="Si, confirmo mi asistencia">¡Sí, allí estaré!</option>
+                    <option value="No podre asistir">No podré asistir</option>
+                </select>
+                <textarea name="mensaje" rows="4" placeholder="Mensaje para los novios (opcional)" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold"></textarea>
+                <div class="text-center"><button type="submit" class="bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Enviar</button></div>
+            </form>
+            <div id="rsvp-feedback" class="text-center mt-6 font-bold text-white"></div>
+        </section>
+        
+        <!-- Lista de Regalos -->
+        <section class="my-20 text-center fade-in">
+            <i class="fas fa-gift fa-3x text-brand-gold mb-4"></i>
+            <h2 class="font-dancing text-6xl text-center mb-4">Lista de Regalos</h2>
+            <p class="text-xl max-w-lg mx-auto mb-10">Su presencia es nuestro mejor regalo, pero si desean tener un detalle con nosotros, aquí les dejamos algunas ideas.</p>
+            <div id="gift-list" class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <div class="col-span-full flex justify-center items-center h-40"><div class="loader"></div></div>
+            </div>
+        </section>
+
+        <!-- Sube tus fotos -->
+        <section class="my-20 text-center fade-in">
+            <i class="fas fa-camera-retro fa-3x text-brand-gold mb-4"></i>
+            <h2 class="font-dancing text-6xl text-center mb-4">Sube tus Fotos</h2>
+            <p class="text-xl max-w-md mx-auto mb-8">Sube y comparte con nosotros tus registros de fotos y videos en nuestro álbum colaborativo de bodas.</p>
+            <a href="#" id="album-link" class="inline-block bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Ir al Álbum <i class="fas fa-images ml-2"></i></a>
+        </section>
+
         <!-- Música -->
-        <section id="music" class="my-16 bg-white p-8 rounded-lg shadow-lg fade-in" style="animation-delay: 1s;">
-            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">¡Ayúdanos con la Música!</h2>
-            <p class="text-center max-w-2xl mx-auto mb-8">La música es clave para una buena fiesta. Agrega tus canciones favoritas a nuestra playlist colaborativa o sugiérenos una aquí abajo.</p>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div>
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3iLBWhQiQv1zwxCdEZpnMo?utm_source=generator&theme=0" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                </div>
-                <div>
-                    <form id="song-suggestion-form">
-                         <div class="mb-4">
-                            <label for="song-name" class="block text-gray-700 font-bold mb-2">Canción y Artista:</label>
-                            <input type="text" id="song-name" name="cancion" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required placeholder="Ej: 'Uptown Funk' - Mark Ronson">
-                        </div>
-                        <div class="mb-4">
-                            <label for="suggester-name" class="block text-gray-700 font-bold mb-2">Tu Nombre (opcional):</label>
-                            <input type="text" id="suggester-name" name="nombre" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="bg-rose-700 hover:bg-rose-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
-                                Sugerir Canción
-                            </button>
-                        </div>
+        <section class="my-20 text-center fade-in">
+            <i class="fas fa-music fa-3x text-brand-gold mb-4"></i>
+            <h2 class="font-dancing text-6xl text-center mb-4">Sé nuestro DJ</h2>
+            <p class="text-xl max-w-md mx-auto mb-8">Motívate y agrega los hits que no pueden faltar en el carrete con esta Playlist colaborativa de Spotify. ¡A bailar!</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center max-w-4xl mx-auto">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3iLBWhQiQv1zwxCdEZpnMo?utm_source=generator&theme=0" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <div class="p-8 rounded-lg bg-brand-green text-white">
+                    <h3 class="text-2xl font-bold mb-4">Sugiere una canción</h3>
+                     <form id="song-suggestion-form" class="space-y-4">
+                        <input type="text" name="cancion" placeholder="Canción y Artista" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold" required>
+                        <input type="text" name="nombre" placeholder="Tu nombre (opcional)" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold">
+                        <button type="submit" class="bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Agregar canción</button>
                     </form>
                     <div id="song-feedback" class="text-center mt-4 font-bold"></div>
                 </div>
             </div>
         </section>
         
-        <footer class="text-center py-8 border-t mt-12">
-            <p class="font-dancing text-4xl text-rose-800">¡Gracias por acompañarnos!</p>
-            <p class="mt-2">Con amor, P & C</p>
+        <!-- Más Información -->
+        <section class="my-20 text-center fade-in">
+            <i class="fas fa-info-circle fa-3x text-brand-gold mb-4"></i>
+            <h2 class="text-4xl font-bold tracking-widest mb-8">MÁS INFORMACIÓN</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                <button data-modal="hoteles-modal" class="modal-trigger bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Hoteles cercanos</button>
+                <button data-modal="importante-modal" class="modal-trigger bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Importante</button>
+                <button data-modal="dudas-modal" class="modal-trigger bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">¿Dudas?</button>
+            </div>
+        </section>
+
+        <footer class="text-center py-12 border-t border-brand-gold mt-12">
+            <p class="text-2xl">¡Te esperamos!</p>
+            <p class="font-dancing text-6xl text-brand-green">P & C</p>
         </footer>
     </div>
 
     <!-- Modal para Pago de Regalo -->
-    <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden modal-overlay">
-        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full text-center relative">
-            <button id="close-modal" class="absolute top-2 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
-            <h3 class="text-2xl font-bold mb-4 text-gray-800">¡Gracias por tu regalo!</h3>
-            <p id="modal-gift-name" class="text-lg font-bold mb-2"></p>
+    <div id="payment-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full relative text-center">
+            <button class="close-modal absolute top-2 right-4 text-2xl text-gray-500 hover:text-gray-800">&times;</button>
+            <i class="fas fa-gift fa-3x text-brand-gold mb-4"></i>
+            <h3 class="font-bold text-3xl mb-2">¡Gracias por tu regalo!</h3>
+            <p id="modal-gift-name" class="text-xl font-semibold mb-4"></p>
             <p class="mb-6">Puedes realizar la transferencia a la siguiente cuenta:</p>
-            <div class="text-left bg-gray-100 p-4 rounded-lg">
+            <div class="text-left bg-gray-100 p-4 rounded-lg text-gray-700">
                 <p><strong>Banco:</strong> Banco de Chile</p>
                 <p><strong>Titular:</strong> Carolina Rojas</p>
                 <p><strong>Tipo de Cuenta:</strong> Cuenta Corriente</p>
@@ -173,19 +202,20 @@
                 <p><strong>Email:</strong> carolina.y.patricio@email.com</p>
                 <p class="mt-2 font-bold">Monto: <span id="modal-gift-price"></span></p>
             </div>
-            <p class="text-sm mt-6 text-gray-500">Una vez realizada la transferencia, presiona "Confirmar Obsequio" para que el regalo se marque como entregado en la lista.</p>
-            <button id="confirm-gift-button" class="mt-4 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                Confirmar Obsequio
-            </button>
+            <p class="text-sm mt-6 text-gray-500">Al confirmar, el regalo se marcará como obsequiado en la lista.</p>
+            <button id="confirm-gift-button" class="mt-4 w-full bg-brand-green hover:bg-opacity-80 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Confirmar Obsequio</button>
         </div>
     </div>
 
+    <!-- Modals de Más Información -->
+    <div id="hoteles-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"><div class="bg-white rounded-lg p-8 max-w-md w-full relative"><button class="close-modal absolute top-2 right-4 text-2xl">&times;</button><h3 class="font-bold text-2xl mb-4">Hoteles Cercanos</h3><p>Aquí puedes listar algunas recomendaciones de hoteles para tus invitados que vienen de fuera. Ejemplo: Hotel Santiago, Hotel W, etc.</p></div></div>
+    <div id="importante-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"><div class="bg-white rounded-lg p-8 max-w-md w-full relative"><button class="close-modal absolute top-2 right-4 text-2xl">&times;</button><h3 class="font-bold text-2xl mb-4">Información Importante</h3><p>Este espacio es para cualquier detalle adicional. Por ejemplo, si hay estacionamiento, si la ceremonia es al aire libre, etc.</p></div></div>
+    <div id="dudas-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"><div class="bg-white rounded-lg p-8 max-w-md w-full relative"><button class="close-modal absolute top-2 right-4 text-2xl">&times;</button><h3 class="font-bold text-2xl mb-4">¿Dudas?</h3><p>Para cualquier consulta, no dudes en contactarnos al siguiente número: +56 9 1234 5678 (Carolina).</p></div></div>
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-
         // ==================================================================
         // CONFIGURACIÓN
-        // Asegúrate de que esta URL sea la correcta de tu implementación.
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4dIM4DWY8A5k28X4_gaejGiqYzsDzxrYeIytT5hPeRr3Dv8A_A6UsEtUNle4lxzoG/exec'; 
         // ==================================================================
 
@@ -198,7 +228,7 @@
             const distance = weddingDate - now;
             if (distance < 0) {
                 clearInterval(countdownInterval);
-                document.getElementById('countdown-section').innerHTML = '<h2 class="text-3xl font-bold text-center text-rose-800">¡Llegó el gran día!</h2>';
+                document.getElementById('countdown-section').innerHTML = '<h2 class="text-3xl font-bold text-center text-brand-gold">¡Llegó el gran día!</h2>';
                 return;
             }
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -214,8 +244,6 @@
         // --- LÓGICA DE REGALOS ---
         const giftListContainer = document.getElementById('gift-list');
         const paymentModal = document.getElementById('payment-modal');
-        const closeModalBtn = document.getElementById('close-modal');
-        const confirmGiftBtn = document.getElementById('confirm-gift-button');
         let currentGiftId = null;
 
         function renderGifts() {
@@ -227,15 +255,14 @@
             gifts.forEach(gift => {
                 const isAvailable = gift.estado === 'Disponible';
                 const card = `
-                    <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col text-center transition transform hover:-translate-y-1">
-                        <h3 class="text-xl font-bold text-gray-800 flex-grow">${gift.nombre}</h3>
-                        <p class="text-lg text-gray-600 my-2">$${parseInt(gift.precio).toLocaleString('es-CL')}</p>
-                        <span class="text-sm font-bold py-1 px-3 rounded-full ${isAvailable ? 'bg-green-200 text-green-800' : 'bg-gray-200 text-gray-500'}">
-                            ${gift.estado}
-                        </span>
-                        <button class="gift-button mt-4 w-full bg-rose-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${isAvailable ? 'hover:bg-rose-800' : 'opacity-50 cursor-not-allowed'}"
+                    <div class="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-brand-green">${gift.nombre}</h3>
+                            <p class="text-xl text-brand-gold my-2">$${parseInt(gift.precio).toLocaleString('es-CL')}</p>
+                        </div>
+                        <button class="gift-button mt-4 w-full font-bold py-3 px-6 rounded-lg transition duration-300 ${isAvailable ? 'bg-brand-green text-white hover:bg-opacity-80' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}"
                             data-id="${gift.id}" ${!isAvailable ? 'disabled' : ''}>
-                            ${isAvailable ? 'Quiero Regalar Esto' : 'Ya fue obsequiado'}
+                            ${isAvailable ? 'Regalar' : 'Obsequiado'}
                         </button>
                     </div>`;
                 giftListContainer.innerHTML += card;
@@ -250,15 +277,13 @@
                 if (result.success) {
                     gifts = result.data;
                     renderGifts();
-                } else {
-                    throw new Error(result.message || 'La API devolvió un error.');
-                }
+                } else { throw new Error(result.message || 'La API devolvió un error.'); }
             } catch (error) {
                 console.error('Error al cargar regalos:', error);
-                giftListContainer.innerHTML = `<p class="col-span-full text-center text-red-500">No se pudo cargar la lista de regalos. Por favor, revisa la URL de la API.</p>`;
+                giftListContainer.innerHTML = `<p class="col-span-full text-center text-red-500">No se pudo cargar la lista de regalos.</p>`;
             }
         }
-        
+
         giftListContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('gift-button')) {
                 currentGiftId = parseInt(e.target.dataset.id);
@@ -271,26 +296,14 @@
             }
         });
 
-        closeModalBtn.addEventListener('click', () => paymentModal.classList.add('hidden'));
-        paymentModal.addEventListener('click', (e) => {
-            if (e.target === paymentModal) paymentModal.classList.add('hidden');
-        });
-
         // --- LÓGICA DE FORMULARIOS Y POST ---
-        // Esta es la función clave que ha sido modificada.
         async function postData(data) {
             try {
                 const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Importante para evitar ciertos errores de CORS con Apps Script
-                    redirect: 'follow', // Permite que fetch siga la redirección de Google
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8', // Cambiado para mayor compatibilidad
-                    },
+                    method: 'POST', mode: 'no-cors', redirect: 'follow',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(data)
                 });
-                // En modo 'no-cors', no podemos leer la respuesta, pero la petición se envía.
-                // Asumimos que fue exitosa si no hay un error de red.
                 return { success: true };
             } catch (error) {
                 console.error("Error en postData:", error);
@@ -298,53 +311,39 @@
             }
         }
 
-        confirmGiftBtn.addEventListener('click', async () => {
-            confirmGiftBtn.disabled = true;
-            confirmGiftBtn.innerText = 'Confirmando...';
+        document.getElementById('confirm-gift-button').addEventListener('click', async () => {
+            const button = document.getElementById('confirm-gift-button');
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             const result = await postData({ action: 'updateGift', id: currentGiftId });
             if (result.success) {
-                // Para una mejor experiencia, actualizamos la UI inmediatamente
-                // y luego refrescamos los datos desde el servidor.
-                const giftIndex = gifts.findIndex(g => g.id === currentGiftId);
-                if (giftIndex !== -1) gifts[giftIndex].estado = 'Obsequiado';
-                renderGifts();
                 paymentModal.classList.add('hidden');
-                // Opcional: volver a cargar todo para asegurar consistencia.
-                setTimeout(fetchGifts, 500); 
+                fetchGifts(); // Recargar la lista de regalos
             } else {
-                alert('Hubo un error al confirmar el regalo. Por favor, inténtalo de nuevo.');
+                alert('Hubo un error al confirmar el regalo.');
             }
-            confirmGiftBtn.disabled = false;
-            confirmGiftBtn.innerText = 'Confirmar Obsequio';
+            button.disabled = false;
+            button.innerHTML = 'Confirmar Obsequio';
         });
 
         async function handleFormSubmit(form, feedbackElement, action) {
             const button = form.querySelector('button[type="submit"]');
-            const originalButtonText = button.innerText;
+            const originalButtonText = button.innerHTML;
             button.disabled = true;
-            button.innerText = 'Enviando...';
-
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             data.action = action;
-
             const result = await postData(data);
-
             if (result.success) {
-                feedbackElement.textContent = '¡Gracias por tu mensaje!';
-                feedbackElement.className = 'text-center mt-4 font-bold text-green-600';
+                feedbackElement.textContent = '¡Gracias, hemos recibido tu mensaje!';
                 form.reset();
             } else {
                 feedbackElement.textContent = 'Hubo un error. Inténtalo de nuevo.';
-                feedbackElement.className = 'text-center mt-4 font-bold text-red-600';
             }
-            
             button.disabled = false;
-            button.innerText = originalButtonText;
-            setTimeout(() => {
-                feedbackElement.textContent = '';
-                feedbackElement.className = 'text-center mt-4 font-bold';
-            }, 4000);
+            button.innerHTML = originalButtonText;
+            setTimeout(() => { feedbackElement.textContent = ''; }, 5000);
         }
 
         document.getElementById('rsvp-form').addEventListener('submit', (e) => {
@@ -357,6 +356,23 @@
             handleFormSubmit(e.target, document.getElementById('song-feedback'), 'suggestSong');
         });
 
+        // --- LÓGICA DE MODALES ---
+        const modalTriggers = document.querySelectorAll('.modal-trigger');
+        const closeModals = document.querySelectorAll('.close-modal, .modal-overlay, #payment-modal .close-modal');
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                document.getElementById(trigger.getAttribute('data-modal')).classList.remove('hidden');
+            });
+        });
+        closeModals.forEach(closer => {
+            closer.addEventListener('click', (e) => {
+                if (e.target === closer) {
+                    closer.closest('.modal-overlay').classList.add('hidden');
+                }
+            });
+        });
+        
+        // Carga inicial de regalos
         fetchGifts();
     });
     </script>
