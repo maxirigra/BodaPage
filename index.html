@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Boda - Patricio y Carolina</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .font-dancing {
+            font-family: 'Dancing Script', cursive;
+        }
+        /* Animación suave para la aparición de elementos */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Estilo para el modal */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-700">
+
+    <!-- Contenedor Principal -->
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <!-- Encabezado -->
+        <header class="text-center py-12 fade-in">
+            <h1 class="font-dancing text-6xl md:text-8xl text-rose-800">Patricio & Carolina</h1>
+            <p class="mt-4 text-2xl">¡Nos casamos!</p>
+            <p class="mt-2 text-lg">25 de Octubre, 2025</p>
+        </header>
+
+        <!-- Contador Regresivo -->
+        <section id="countdown-section" class="text-center my-12 fade-in" style="animation-delay: 0.2s;">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Cuenta Regresiva</h2>
+            <div class="grid grid-cols-4 gap-4 max-w-md mx-auto text-white">
+                <div class="bg-rose-700 p-4 rounded-lg shadow-lg">
+                    <div id="days" class="text-4xl font-bold">00</div>
+                    <div class="text-sm">Días</div>
+                </div>
+                <div class="bg-rose-700 p-4 rounded-lg shadow-lg">
+                    <div id="hours" class="text-4xl font-bold">00</div>
+                    <div class="text-sm">Horas</div>
+                </div>
+                <div class="bg-rose-700 p-4 rounded-lg shadow-lg">
+                    <div id="minutes" class="text-4xl font-bold">00</div>
+                    <div class="text-sm">Minutos</div>
+                </div>
+                <div class="bg-rose-700 p-4 rounded-lg shadow-lg">
+                    <div id="seconds" class="text-4xl font-bold">00</div>
+                    <div class="text-sm">Segundos</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ubicación y Mapa -->
+        <section id="location" class="my-16 bg-white p-8 rounded-lg shadow-lg fade-in" style="animation-delay: 0.4s;">
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Ceremonia y Celebración</h2>
+            <div class="text-center mb-8">
+                <p class="text-lg"><strong>Fecha:</strong> Sábado, 25 de Octubre, 2025</p>
+                <p class="text-lg"><strong>Hora:</strong> 18:00 hrs</p>
+                <p class="text-lg"><strong>Lugar:</strong> Centro de Eventos "El Rincón Soñado"</p>
+                <p class="text-md text-gray-500">Camino a Farellones 12345, Lo Barnechea, Santiago</p>
+            </div>
+            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden border">
+                <!-- Mapa de Google Maps Incrustado -->
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.753381078426!2d-70.51016788479896!3d-33.37747998079458!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c951c51a6db7%3A0x9c3a3f5a5de6a9c8!2sCamino%20a%20Farellones%2C%20Lo%20Barnechea%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1663107891234!5m2!1ses-419!2scl" 
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </section>
+        
+        <!-- Confirmar Asistencia (RSVP) -->
+        <section id="rsvp" class="my-16 bg-white p-8 rounded-lg shadow-lg fade-in" style="animation-delay: 0.6s;">
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Confirma tu Asistencia</h2>
+            <form id="rsvp-form" class="max-w-xl mx-auto">
+                <div class="mb-4">
+                    <label for="guest-name" class="block text-gray-700 font-bold mb-2">Nombre Completo:</label>
+                    <input type="text" id="guest-name" name="guest-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-4">
+                    <label for="attendance" class="block text-gray-700 font-bold mb-2">¿Asistirás?</label>
+                    <select id="attendance" name="attendance" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="si">¡Sí, allí estaré!</option>
+                        <option value="no">No podré asistir</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="dietary" class="block text-gray-700 font-bold mb-2">¿Tienes algún requerimiento alimenticio?</label>
+                    <textarea id="dietary" name="dietary" rows="3" placeholder="Ej: Alergia a los frutos secos, vegetariano, etc." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-rose-700 hover:bg-rose-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                        Enviar Confirmación
+                    </button>
+                </div>
+            </form>
+            <div id="rsvp-feedback" class="text-center mt-4 font-bold"></div>
+        </section>
+
+
+        <!-- Lista de Regalos -->
+        <section id="gifts" class="my-16 fade-in" style="animation-delay: 0.8s;">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Lista de Regalos</h2>
+            <p class="text-center max-w-2xl mx-auto mb-8">Su presencia es nuestro mejor regalo, pero si desean obsequiarnos algo, hemos preparado esta lista con mucho cariño. ¡Gracias por ser parte de nuestra historia!</p>
+            <div id="gift-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Los regalos se generarán aquí con JavaScript -->
+            </div>
+        </section>
+
+        <!-- Música -->
+        <section id="music" class="my-16 bg-white p-8 rounded-lg shadow-lg fade-in" style="animation-delay: 1s;">
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">¡Ayúdanos con la Música!</h2>
+            <p class="text-center max-w-2xl mx-auto mb-8">La música es clave para una buena fiesta. Agrega tus canciones favoritas a nuestra playlist colaborativa o sugiérenos una aquí abajo.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <iframe style="border-radius:12px" 
+                        src="https://open.spotify.com/embed/playlist/3iLBWhQiQv1zwxCdEZpnMo?utm_source=generator&theme=0" 
+                        width="100%" 
+                        height="380" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <div>
+                    <form id="song-suggestion-form">
+                         <div class="mb-4">
+                            <label for="song-name" class="block text-gray-700 font-bold mb-2">Canción y Artista:</label>
+                            <input type="text" id="song-name" name="song-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required placeholder="Ej: 'Uptown Funk' - Mark Ronson">
+                        </div>
+                        <div class="mb-4">
+                            <label for="suggester-name" class="block text-gray-700 font-bold mb-2">Tu Nombre (opcional):</label>
+                            <input type="text" id="suggester-name" name="suggester-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="bg-rose-700 hover:bg-rose-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                                Sugerir Canción
+                            </button>
+                        </div>
+                    </form>
+                    <div id="song-feedback" class="text-center mt-4 font-bold"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="text-center py-8 border-t mt-12">
+            <p class="font-dancing text-4xl text-rose-800">¡Gracias por acompañarnos!</p>
+            <p class="mt-2">Con amor, P & C</p>
+        </footer>
+
+    </div>
+
+    <!-- Modal para Pago de Regalo -->
+    <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden modal-overlay">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full text-center relative">
+            <button id="close-modal" class="absolute top-2 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            <h3 class="text-2xl font-bold mb-4 text-gray-800">¡Gracias por tu regalo!</h3>
+            <p id="modal-gift-name" class="text-lg font-bold mb-2"></p>
+            <p class="mb-6">Puedes realizar la transferencia a la siguiente cuenta:</p>
+            
+            <div class="text-left bg-gray-100 p-4 rounded-lg">
+                <p><strong>Banco:</strong> Banco de Chile</p>
+                <p><strong>Titular:</strong> Carolina Rojas</p>
+                <p><strong>Tipo de Cuenta:</strong> Cuenta Corriente</p>
+                <p><strong>Número:</strong> 12345678-9</p>
+                <p><strong>RUT:</strong> 11.222.333-4</p>
+                <p><strong>Email:</strong> carolina.y.patricio@email.com</p>
+                <p class="mt-2 font-bold">Monto: <span id="modal-gift-price"></span></p>
+            </div>
+
+            <p class="text-sm mt-6 text-gray-500">Una vez realizada la transferencia, presiona "Confirmar Obsequio" para que el regalo se marque como entregado en la lista.</p>
+            
+            <button id="confirm-gift-button" class="mt-4 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                Confirmar Obsequio
+            </button>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- LÓGICA DEL CONTADOR ---
+        const weddingDate = new Date('Oct 25, 2025 18:00:00').getTime();
+
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown-section').innerHTML = '<h2 class="text-3xl font-bold text-center text-rose-800">¡Llegó el gran día!</h2>';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+        }, 1000);
+
+        // --- LÓGICA DE REGALOS ---
+
+        // **IMPORTANTE**: Estos datos deben venir de tu base de datos (Google Sheet).
+        // Deberías hacer un `fetch` a tu API de Google Apps Script para obtener esta lista.
+        let gifts = [
+            { id: 1, name: 'Juego de Sábanas King', price: 80000, status: 'Disponible' },
+            { id: 2, name: 'Batería de Cocina', price: 120000, status: 'Disponible' },
+            { id: 3, name: 'Aspiradora Robot', price: 250000, status: 'Obsequiado' },
+            { id: 4, name: 'Set de Copas de Vino', price: 45000, status: 'Disponible' },
+            { id: 5, name: 'Cafetera de Grano', price: 180000, status: 'Disponible' },
+            { id: 6, name: 'Cena para dos', price: 60000, status: 'Disponible' },
+            { id: 7, name: 'Aporte para la Luna de Miel', price: 100000, status: 'Disponible' },
+            { id: 8, name: 'Freidora de Aire', price: 75000, status: 'Obsequiado' },
+            { id: 9, name: 'Parlante Bluetooth', price: 90000, status: 'Disponible' }
+        ];
+
+        const giftListContainer = document.getElementById('gift-list');
+        const paymentModal = document.getElementById('payment-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const confirmGiftBtn = document.getElementById('confirm-gift-button');
+        let currentGiftId = null;
+
+        function renderGifts() {
+            giftListContainer.innerHTML = '';
+            gifts.forEach(gift => {
+                const isAvailable = gift.status === 'Disponible';
+                const card = `
+                    <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col text-center transition transform hover:-translate-y-1">
+                        <h3 class="text-xl font-bold text-gray-800 flex-grow">${gift.name}</h3>
+                        <p class="text-lg text-gray-600 my-2">$${gift.price.toLocaleString('es-CL')}</p>
+                        <span class="text-sm font-bold py-1 px-3 rounded-full ${isAvailable ? 'bg-green-200 text-green-800' : 'bg-gray-200 text-gray-500'}">
+                            ${gift.status}
+                        </span>
+                        <button 
+                            class="gift-button mt-4 w-full bg-rose-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${isAvailable ? 'hover:bg-rose-800' : 'opacity-50 cursor-not-allowed'}"
+                            data-id="${gift.id}"
+                            ${!isAvailable ? 'disabled' : ''}>
+                            ${isAvailable ? 'Quiero Regalar Esto' : 'Ya fue obsequiado'}
+                        </button>
+                    </div>
+                `;
+                giftListContainer.innerHTML += card;
+            });
+        }
+        
+        // Event listener para los botones de regalo (usando delegación de eventos)
+        giftListContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('gift-button')) {
+                currentGiftId = parseInt(e.target.dataset.id);
+                const gift = gifts.find(g => g.id === currentGiftId);
+                if (gift) {
+                    document.getElementById('modal-gift-name').innerText = gift.name;
+                    document.getElementById('modal-gift-price').innerText = `$${gift.price.toLocaleString('es-CL')}`;
+                    paymentModal.classList.remove('hidden');
+                }
+            }
+        });
+
+        // Cerrar el modal
+        closeModalBtn.addEventListener('click', () => {
+            paymentModal.classList.add('hidden');
+        });
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                 paymentModal.classList.add('hidden');
+            }
+        });
+
+        // Confirmar el regalo
+        confirmGiftBtn.addEventListener('click', () => {
+            // **IMPORTANTE**: Aquí es donde harías la llamada a tu API de Google Sheet.
+            // Deberías enviar una solicitud (ej. `fetch` con método POST) a tu
+            // Google Apps Script para actualizar la fila correspondiente al `currentGiftId`,
+            // cambiando el estado a "Obsequiado".
+
+            // Simulación del cambio de estado
+            const giftIndex = gifts.findIndex(g => g.id === currentGiftId);
+            if (giftIndex !== -1) {
+                gifts[giftIndex].status = 'Obsequiado';
+            }
+
+            // Volver a renderizar la lista y cerrar el modal
+            renderGifts();
+            paymentModal.classList.add('hidden');
+        });
+
+        // --- LÓGICA DE FORMULARIOS ---
+        
+        // Formulario RSVP
+        const rsvpForm = document.getElementById('rsvp-form');
+        const rsvpFeedback = document.getElementById('rsvp-feedback');
+        rsvpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(rsvpForm);
+            const data = Object.fromEntries(formData.entries());
+            
+            // **CONEXIÓN GOOGLE SHEET**: Aquí envías `data` a tu API de Google Sheet
+            // para agregar una nueva fila con la confirmación del invitado.
+            console.log('Datos RSVP:', data); 
+
+            rsvpFeedback.textContent = '¡Gracias por tu confirmación!';
+            rsvpFeedback.classList.add('text-green-600');
+            rsvpForm.reset();
+            setTimeout(() => rsvpFeedback.textContent = '', 3000);
+        });
+
+        // Formulario de sugerencia de canción
+        const songForm = document.getElementById('song-suggestion-form');
+        const songFeedback = document.getElementById('song-feedback');
+        songForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(songForm);
+            const data = Object.fromEntries(formData.entries());
+
+            // **CONEXIÓN GOOGLE SHEET**: También puedes enviar esto a otra hoja
+            // en tu Google Sheet para tener una lista de canciones sugeridas.
+            console.log('Sugerencia de canción:', data);
+
+            songFeedback.textContent = '¡Gracias por tu sugerencia!';
+            songFeedback.classList.add('text-green-600');
+            songForm.reset();
+            setTimeout(() => songFeedback.textContent = '', 3000);
+        });
+
+
+        // Renderizado inicial de regalos
+        renderGifts();
+    });
+    </script>
+
+</body>
+</html>
