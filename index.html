@@ -74,7 +74,7 @@
         <header class="text-center py-16 fade-in">
             <h1 class="font-dancing text-7xl md:text-9xl text-brand-green">Patricio & Carolina</h1>
             <p class="mt-4 text-3xl">¡Nos casamos!</p>
-            <p class="mt-2 text-xl tracking-widest">25 · OCT · 2025</p>
+            <p class="mt-2 text-xl tracking-widest">21 · FEB · 2026</p>
         </header>
 
         <!-- Contador Regresivo -->
@@ -87,18 +87,17 @@
             </div>
         </section>
 
-        <!-- NUEVA SECCIÓN: Carrusel de Fotos -->
+        <!-- Carrusel de Fotos -->
         <section class="my-20 fade-in">
             <div class="carousel-container shadow-lg">
                 <div class="carousel-track">
                     <!-- Slide 1 -->
                     <div class="carousel-slide">
-                        <!-- CAMBIA ESTAS URLS POR LAS DE TUS FOTOS -->
-                        <img src="https://placehold.co/800x500/4A5C47/FBF9F5?text=Foto+de+la+Pareja+1" alt="Foto de Patricio y Carolina 1" class="w-full h-auto object-cover">
+                        <img src="https://i.imgur.com/V8W1jV6.jpeg" alt="Foto de Patricio y Carolina 1" class="w-full h-auto object-cover">
                     </div>
                     <!-- Slide 2 -->
                     <div class="carousel-slide">
-                        <img src="https://placehold.co/800x500/B99A6E/FBF9F5?text=Foto+de+la+Pareja+2" alt="Foto de Patricio y Carolina 2" class="w-full h-auto object-cover">
+                        <img src="https://i.imgur.com/Yawebed.jpeg" alt="Foto de Patricio y Carolina 2" class="w-full h-auto object-cover">
                     </div>
                 </div>
                 <button class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
@@ -134,7 +133,7 @@
         <section class="my-20 p-10 rounded-lg bg-brand-green text-white text-center fade-in">
              <i class="fas fa-tshirt fa-3x text-brand-gold mb-4"></i>
             <h2 class="text-4xl font-bold tracking-widest mb-4">DRESS CODE</h2>
-            <p class="text-xl max-w-md mx-auto">Ellos traje formal deberán usar, ellas de vestido largo estarán... y juntos puntualmente llegarán. En colores, lo que quieran menos color blanco o parecidos. Eso lo dejamos para la novia.</p>
+            <p class="text-xl max-w-md mx-auto">Nuestro matrimonio será de noche, en jardín encantado, elegante el estilo, como siempre hemos soñado. Cuida tus zapatos, que el pasto es traicionero, pero la noche será mágica, eso sí es certero. Ellos, traje formal deberán lucir, ellas, vestido largo para resplandecer y brillar.La puntualidad será nuestro mejor aliado. En cuanto a colores, todo vale y es bienvenido, menos blanco o afines... pues a la novia van dirigidos.</p>
         </section>
 
         <!-- Confirmar Asistencia (RSVP) -->
@@ -148,7 +147,7 @@
                     <option value="Si, confirmo mi asistencia">¡Sí, allí estaré!</option>
                     <option value="No podre asistir">No podré asistir</option>
                 </select>
-                <textarea name="mensaje" rows="4" placeholder="Mensaje para los novios (opcional)" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold"></textarea>
+                <textarea name="mensaje" rows="4" placeholder="Requerimintos Alimenticios (alergias,intolerancias, etc.)" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold"></textarea>
                 <div class="text-center"><button type="submit" class="bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Enviar</button></div>
             </form>
             <div id="rsvp-feedback" class="text-center mt-6 font-bold text-white"></div>
@@ -178,7 +177,7 @@
             <h2 class="font-dancing text-6xl text-center mb-4">Sé nuestro DJ</h2>
             <p class="text-xl max-w-md mx-auto mb-8">Motívate y agrega los hits que no pueden faltar en el carrete con esta Playlist colaborativa de Spotify. ¡A bailar!</p>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center max-w-4xl mx-auto">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3iLBWhQiQv1zwxCdEZpnMo?utm_source=generator&theme=0" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/08lV02ypY73Mx3CyNqJNdZ?utm_source=generator&theme=0" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 <div class="p-8 rounded-lg bg-brand-green text-white">
                     <h3 class="text-2xl font-bold mb-4">Sugiere una canción</h3>
                      <form id="song-suggestion-form" class="space-y-4">
@@ -242,7 +241,7 @@
         let rawGifts = [];
 
         // --- LÓGICA DEL CONTADOR ---
-        const weddingDate = new Date('Oct 25, 2025 18:00:00').getTime();
+        const weddingDate = new Date('Feb 21, 2026 18:00:00').getTime();
         const countdownInterval = setInterval(() => {
             const now = new Date().getTime();
             const distance = weddingDate - now;
@@ -267,11 +266,6 @@
         const nextButton = document.querySelector('.carousel-button.next');
         const prevButton = document.querySelector('.carousel-button.prev');
         const slideWidth = slides[0].getBoundingClientRect().width;
-
-        const setSlidePosition = (slide, index) => {
-            slide.style.left = slideWidth * index + 'px';
-        };
-        // slides.forEach(setSlidePosition); // No es necesario con Flexbox
 
         let currentSlide = 0;
 
@@ -457,7 +451,6 @@
 
 </body>
 </html>
-
 
 
 
