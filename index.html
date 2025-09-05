@@ -548,6 +548,29 @@
           ).padStart(2, '0');
         }, 1000);
 
+        // --- LÓGICA DEL CARRUSEL ---
+        const track = document.querySelector('.carousel-track');
+        const slides = Array.from(track.children);
+        const nextButton = document.querySelector('.carousel-button.next');
+        const prevButton = document.querySelector('.carousel-button.prev');
+        const slideWidth = slides[0].getBoundingClientRect().width;
+        
+        const setSlidePosition = (slide, index) => {
+          slide.style.left = slideWidth * index + 'px';
+        };
+        // slides.forEach(setSlidePosition); // No es necesario con Flexbox
+        let currentSlide = 0;
+        
+        nextButton.addEventListener('click', e => {
+          currentSlide = (currentSlide + 1) % slides.length;
+          track.style.transform = 'translateX(-' + (slideWidth * currentSlide) + 'px)';
+        });
+        
+        prevButton.addEventListener('click', e => {
+          currentSlide = (currentSlide - 1 + slides.length) % slides.length;.
+          track.style.transform = 'translateX(-' + (slideWidth * currentSlide) + 'px)';
+        });
+
         // --- LÓGICA DE REGALOS POR FILAS ---
         const giftListContainer = document.getElementById('gift-list');
         const paymentModal = document.getElementById('payment-modal');
@@ -774,6 +797,7 @@
     </script>
   </body>
 </html>
+
 
 
 
