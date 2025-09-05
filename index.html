@@ -1,551 +1,264 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestra Boda - Patricio y Carolina</title>
-
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Dancing+Script:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    
     <!-- Font Awesome para Iconos -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Estilos personalizados -->
     <style>
-      body {
-        font-family: 'Cormorant Garamond', serif;
-        background-color: #fbf9f5;
-      }
-      .font-dancing {
-        font-family: 'Dancing Script', cursive;
-      }
-      .text-brand-green {
-        color: #4a5c47;
-      }
-      .bg-brand-green {
-        background-color: #4a5c47;
-      }
-      .text-brand-gold {
-        color: #b99a6e;
-      }
-      .bg-brand-beige {
-        background-color: #eae3d9;
-      }
-      .border-brand-gold {
-        border-color: #b99a6e;
-      }
-      .fade-in {
-        animation: fadeIn 1.5s ease-in-out;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
+        body { font-family: 'Cormorant Garamond', serif; background-color: #FBF9F5; }
+        .font-dancing { font-family: 'Dancing Script', cursive; }
+        .text-brand-green { color: #4A5C47; }
+        .bg-brand-green { background-color: #4A5C47; }
+        .text-brand-gold { color: #B99A6E; }
+        .bg-brand-beige { background-color: #EAE3D9; }
+        .border-brand-gold { border-color: #B99A6E; }
+        .fade-in { animation: fadeIn 1.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-overlay { transition: opacity 0.3s ease; }
+        .timeline-item:before { content: ''; position: absolute; left: 10px; top: 10px; bottom: -10px; width: 2px; background-color: #B99A6E; }
+        .timeline-item:last-child:before { display: none; }
+        .timeline-dot { position: absolute; left: 0; top: 5px; transform: translateX(-45%); }
+        .loader { border: 4px solid #EAE3D9; border-top: 4px solid #B99A6E; border-radius: 50%; width: 50px; height: 50px; animation: spin 1.2s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Estilos para el carrusel */
+        .carousel-container {
+            position: relative;
+            max-width: 800px;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 0.5rem;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
         }
-      }
-      .modal-overlay {
-        transition: opacity 0.3s ease;
-      }
-      .timeline-item:before {
-        content: '';
-        position: absolute;
-        left: 10px;
-        top: 10px;
-        bottom: -10px;
-        width: 2px;
-        background-color: #b99a6e;
-      }
-      .timeline-item:last-child:before {
-        display: none;
-      }
-      .timeline-dot {
-        position: absolute;
-        left: 0;
-        top: 5px;
-        transform: translateX(-45%);
-      }
-      .loader {
-        border: 4px solid #eae3d9;
-        border-top: 4px solid #b99a6e;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1.2s linear infinite;
-      }
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
         }
-        100% {
-          transform: rotate(360deg);
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            z-index: 10;
         }
-      }
+        .carousel-button.prev { left: 10px; }
+        .carousel-button.next { right: 10px; }
     </style>
-  </head>
-  <body class="text-brand-green">
+</head>
+<body class="text-brand-green">
+
     <!-- Contenedor Principal -->
     <div class="container mx-auto p-4 md:p-8 max-w-3xl">
-      <!-- Encabezado -->
-      <header class="text-center py-16 fade-in">
-        <h1 class="font-dancing text-7xl md:text-9xl text-brand-green">
-          Patricio & Carolina
-        </h1>
-        <p class="mt-4 text-3xl">¡Nos casamos!</p>
-        <p class="mt-2 text-xl tracking-widest">21 · FEB · 2026</p>
-      </header>
 
-      <!-- Contador Regresivo -->
-      <section class="text-center my-16 fade-in">
-        <div
-          id="countdown-section"
-          class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-lg mx-auto text-brand-gold"
-        >
-          <div>
-            <div id="days" class="text-5xl font-semibold">00</div>
-            <div class="text-lg">días</div>
-          </div>
-          <div>
-            <div id="hours" class="text-5xl font-semibold">00</div>
-            <div class="text-lg">horas</div>
-          </div>
-          <div>
-            <div id="minutes" class="text-5xl font-semibold">00</div>
-            <div class="text-lg">minutos</div>
-          </div>
-          <div>
-            <div id="seconds" class="text-5xl font-semibold">00</div>
-            <div class="text-lg">segundos</div>
-          </div>
-        </div>
-      </section>
+        <!-- Encabezado -->
+        <header class="text-center py-16 fade-in">
+            <h1 class="font-dancing text-7xl md:text-9xl text-brand-green">Patricio & Carolina</h1>
+            <p class="mt-4 text-3xl">¡Nos casamos!</p>
+            <p class="mt-2 text-xl tracking-widest">25 · OCT · 2025</p>
+        </header>
 
-      <!-- NUEVA SECCIÓN: Carrusel de Fotos -->
-      <section class="my-20 fade-in">
-        <div class="carousel-container shadow-lg">
-          <div class="carousel-track">
-            <!-- Slide 1 -->
-            <div class="carousel-slide">
-              <img src="https://i.imgur.com/V8W1jV6.jpeg" alt="Foto de Patricio y Carolina 1" class="w-full h-auto object-cover">
+        <!-- Contador Regresivo -->
+        <section class="text-center my-16 fade-in">
+            <div id="countdown-section" class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-lg mx-auto text-brand-gold">
+                <div><div id="days" class="text-5xl font-semibold">00</div><div class="text-lg">días</div></div>
+                <div><div id="hours" class="text-5xl font-semibold">00</div><div class="text-lg">horas</div></div>
+                <div><div id="minutes" class="text-5xl font-semibold">00</div><div class="text-lg">minutos</div></div>
+                <div><div id="seconds" class="text-5xl font-semibold">00</div><div class="text-lg">segundos</div></div>
             </div>
-            <div class="carousel-slide">
-              <img src="https://i.imgur.com/Yawebed.jpeg" alt="Foto de Patricio y Carolina 2" class="w-full h-auto object-cover">
-            </div>
-          </div>
-          <button class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
-          <button class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
-        </div>
-      </section>
-          
-      <!-- Ubicación y Mapa -->
-      <section class="my-20 text-center fade-in">
-        <h2 class="font-dancing text-6xl text-center mb-12">Ubicación</h2>
-        <div class="text-center mb-8">
-          <p class="text-2xl font-bold">Viña William Cole</p>
-          <p class="text-xl text-gray-600">F-840, Casablanca, Valparaíso</p>
-        </div>
-        <div
-          class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden border border-brand-gold shadow-lg"
-        >
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3330.403043836301!2d-71.4116540234499!3d-33.29170017340698!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x96623c106411516b%3A0x87a532e8790089e2!2sVi%C3%B1a%20William%20Cole!5e0!3m2!1ses-419!2scl!4v1722188888888!5m2!1ses-419!2scl"
-            width="100%"
-            height="450"
-            style="border: 0"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-      </section>
+        </section>
 
-      <!-- Itinerario -->
-      <section class="my-20 fade-in">
-        <h2 class="font-dancing text-6xl text-center mb-12">Itinerario</h2>
-        <div class="max-w-md mx-auto relative pl-8">
-          <div class="timeline-item relative pb-8">
-            <div class="timeline-dot text-brand-gold">
-              <i class="fas fa-heart"></i>
+        <!-- NUEVA SECCIÓN: Carrusel de Fotos -->
+        <section class="my-20 fade-in">
+            <div class="carousel-container shadow-lg">
+                <div class="carousel-track">
+                    <!-- Slide 1 -->
+                    <div class="carousel-slide">
+                        <!-- CAMBIA ESTAS URLS POR LAS DE TUS FOTOS -->
+                        <img src="https://placehold.co/800x500/4A5C47/FBF9F5?text=Foto+de+la+Pareja+1" alt="Foto de Patricio y Carolina 1" class="w-full h-auto object-cover">
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-slide">
+                        <img src="https://placehold.co/800x500/B99A6E/FBF9F5?text=Foto+de+la+Pareja+2" alt="Foto de Patricio y Carolina 2" class="w-full h-auto object-cover">
+                    </div>
+                </div>
+                <button class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
             </div>
-            <div class="ml-6">
-              <p class="text-2xl font-bold">CITACIÓN</p>
-              <p class="text-xl">16:30 HRS.</p>
+        </section>
+        
+        <!-- Ubicación y Mapa -->
+        <section class="my-20 text-center fade-in">
+            <h2 class="font-dancing text-6xl text-center mb-12">Ubicación</h2>
+            <div class="text-center mb-8">
+                <p class="text-2xl font-bold">Viña William Cole</p>
+                <p class="text-xl text-gray-600">F-840, Casablanca, Valparaíso</p>
             </div>
-          </div>
-          <div class="timeline-item relative pb-8">
-            <div class="timeline-dot text-brand-gold">
-              <i class="fas fa-heart"></i>
+            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden border border-brand-gold shadow-lg">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3330.403043836301!2d-71.4116540234499!3d-33.29170017340698!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x96623c106411516b%3A0x87a532e8790089e2!2sVi%C3%B1a%20William%20Cole!5e0!3m2!1ses-419!2scl!4v1722188888888!5m2!1ses-419!2scl" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-            <div class="ml-6">
-              <p class="text-2xl font-bold">CEREMONIA</p>
-              <p class="text-xl">17:30 HRS.</p>
-            </div>
-          </div>
-          <div class="timeline-item relative pb-8">
-            <div class="timeline-dot text-brand-gold">
-              <i class="fas fa-heart"></i>
-            </div>
-            <div class="ml-6">
-              <p class="text-2xl font-bold">CÓCTEL</p>
-              <p class="text-xl">18:30 HRS.</p>
-            </div>
-          </div>
-          <div class="timeline-item relative pb-8">
-            <div class="timeline-dot text-brand-gold">
-              <i class="fas fa-heart"></i>
-            </div>
-            <div class="ml-6">
-              <p class="text-2xl font-bold">CENA</p>
-              <p class="text-xl">21:00 HRS.</p>
-            </div>
-          </div>
-          <div class="timeline-item relative pb-8">
-            <div class="timeline-dot text-brand-gold">
-              <i class="fas fa-heart"></i>
-            </div>
-            <div class="ml-6">
-              <p class="text-2xl font-bold">FIESTA</p>
-              <p class="text-xl">23:00 HRS.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Dress Code -->
-      <section
-        class="my-20 p-10 rounded-lg bg-brand-green text-white text-center fade-in"
-      >
-        <i class="fas fa-tshirt fa-3x text-brand-gold mb-4"></i>
-        <h2 class="text-4xl font-bold tracking-widest mb-4">DRESS CODE</h2>
-        <p class="text-xl max-w-md mx-auto">
-          Nuestro matrimonio será de noche, en jardín encantado, elegante el
-          estilo, como siempre hemos soñado. Cuida tus zapatos, que el pasto es
-          traicionero, pero la noche será mágica, eso sí es certero. Ellos,
-          traje formal deberán lucir, ellas, vestido largo para resplandecer y
-          brillar.La puntualidad será nuestro mejor aliado. En cuanto a colores,
-          todo vale y es bienvenido, menos blanco o afines... pues a la novia
-          van dirigidos.
-        </p>
-      </section>
+        <!-- Itinerario -->
+        <section class="my-20 fade-in">
+            <h2 class="font-dancing text-6xl text-center mb-12">Itinerario</h2>
+            <div class="max-w-md mx-auto relative pl-8">
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><div class="ml-6"><p class="text-2xl font-bold">CITACIÓN</p><p class="text-xl">16:30 HRS.</p></div></div>
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><div class="ml-6"><p class="text-2xl font-bold">CEREMONIA</p><p class="text-xl">17:30 HRS.</p></div></div>
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><div class="ml-6"><p class="text-2xl font-bold">CÓCTEL</p><p class="text-xl">18:30 HRS.</p></div></div>
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><div class="ml-6"><p class="text-2xl font-bold">CENA</p><p class="text-xl">21:00 HRS.</p></div></div>
+                <div class="timeline-item relative pb-8"><div class="timeline-dot text-brand-gold"><i class="fas fa-heart"></i></div><div class="ml-6"><p class="text-2xl font-bold">FIESTA</p><p class="text-xl">23:00 HRS.</p></div></div>
+            </div>
+        </section>
 
-      <!-- Confirmar Asistencia (RSVP) -->
-      <section class="my-20 p-10 rounded-lg bg-brand-green text-white fade-in">
-        <h2 class="font-dancing text-6xl text-center mb-6">
-          Confirma tu Asistencia
-        </h2>
-        <p class="text-center mb-8">
-          Rellena el siguiente formulario individualmente por cada persona que
-          asistirá a la ceremonia.
-        </p>
-        <form id="rsvp-form" class="max-w-md mx-auto space-y-6">
-          <input
-            type="text"
-            name="nombre"
-            placeholder="Nombre y apellido"
-            class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold"
-            required
-          />
-          <input
-            type="tel"
-            name="telefono"
-            placeholder="Teléfono"
-            class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold"
-            required
-          />
-          <select
-            name="asistencia"
-            class="w-full p-3 rounded-lg bg-brand-beige text-brand-green focus:outline-none focus:ring-2 focus:ring-brand-gold"
-          >
-            <option value="Si, confirmo mi asistencia">
-              ¡Sí, allí estaré!
-            </option>
-            <option value="No podre asistir">No podré asistir</option>
-          </select>
-          <textarea
-            name="mensaje"
-            rows="4"
-            placeholder="Requerimintos Alimenticios (alergias,intolerancias, etc.)"
-            class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold"
-          ></textarea>
-          <div class="text-center">
-            <button
-              type="submit"
-              class="bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300"
-            >
-              Enviar
-            </button>
-          </div>
-        </form>
-        <div
-          id="rsvp-feedback"
-          class="text-center mt-6 font-bold text-white"
-        ></div>
-      </section>
+        <!-- Dress Code -->
+        <section class="my-20 p-10 rounded-lg bg-brand-green text-white text-center fade-in">
+             <i class="fas fa-tshirt fa-3x text-brand-gold mb-4"></i>
+            <h2 class="text-4xl font-bold tracking-widest mb-4">DRESS CODE</h2>
+            <p class="text-xl max-w-md mx-auto">Ellos traje formal deberán usar, ellas de vestido largo estarán... y juntos puntualmente llegarán. En colores, lo que quieran menos color blanco o parecidos. Eso lo dejamos para la novia.</p>
+        </section>
 
-      <!-- Lista de Regalos -->
-      <section class="my-20 text-center fade-in">
-        <i class="fas fa-gift fa-3x text-brand-gold mb-4"></i>
-        <h2 class="font-dancing text-6xl text-center mb-4">Lista de Regalos</h2>
-        <p class="text-xl max-w-lg mx-auto mb-10">
-          Su presencia es nuestro mejor regalo, pero si desean tener un detalle
-          con nosotros, aquí les dejamos algunas ideas.
-        </p>
-        <div
-          id="gift-list"
-          class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left"
-        >
-          <div class="col-span-full flex justify-center items-center h-40">
-            <div class="loader"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Sube tus fotos -->
-      <section class="my-20 text-center fade-in">
-        <i class="fas fa-camera-retro fa-3x text-brand-gold mb-4"></i>
-        <h2 class="font-dancing text-6xl text-center mb-4">Sube tus Fotos</h2>
-        <p class="text-xl max-w-md mx-auto mb-8">
-          Sube y comparte con nosotros tus registros de fotos y videos en
-          nuestro álbum colaborativo de bodas.
-        </p>
-        <a
-          href="#"
-          id="album-link"
-          target="_blank"
-          class="inline-block bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300"
-          >Ir al Álbum <i class="fas fa-images ml-2"></i
-        ></a>
-      </section>
-
-      <!-- Música -->
-      <section class="my-20 text-center fade-in">
-        <i class="fas fa-music fa-3x text-brand-gold mb-4"></i>
-        <h2 class="font-dancing text-6xl text-center mb-4">Sé nuestro DJ</h2>
-        <p class="text-xl max-w-md mx-auto mb-8">
-          Motívate y agrega los hits que no pueden faltar en el carrete con esta
-          Playlist colaborativa de Spotify. ¡A bailar!
-        </p>
-        <div
-          class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center max-w-4xl mx-auto"
-        >
-          <iframe
-            style="border-radius: 12px"
-            src="https://open.spotify.com/embed/playlist/08lV02ypY73Mx3CyNqJNdZ?utm_source=generator&theme=0"
-            width="100%"
-            height="380"
-            frameborder="0"
-            allowfullscreen=""
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-          <div class="p-8 rounded-lg bg-brand-green text-white">
-            <h3 class="text-2xl font-bold mb-4">Sugiere una canción</h3>
-            <form id="song-suggestion-form" class="space-y-4">
-              <input
-                type="text"
-                name="cancion"
-                placeholder="Canción y Artista"
-                class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold"
-                required
-              />
-              <input
-                type="text"
-                name="nombre"
-                placeholder="Tu nombre (opcional)"
-                class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold"
-              />
-              <button
-                type="submit"
-                class="bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300"
-              >
-                Agregar canción
-              </button>
+        <!-- Confirmar Asistencia (RSVP) -->
+        <section class="my-20 p-10 rounded-lg bg-brand-green text-white fade-in">
+            <h2 class="font-dancing text-6xl text-center mb-6">Confirma tu Asistencia</h2>
+            <p class="text-center mb-8">Rellena el siguiente formulario individualmente por cada persona que asistirá a la ceremonia.</p>
+            <form id="rsvp-form" class="max-w-md mx-auto space-y-6">
+                <input type="text" name="nombre" placeholder="Nombre y apellido" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold" required>
+                <input type="tel" name="telefono" placeholder="Teléfono" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold" required>
+                <select name="asistencia" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green focus:outline-none focus:ring-2 focus:ring-brand-gold">
+                    <option value="Si, confirmo mi asistencia">¡Sí, allí estaré!</option>
+                    <option value="No podre asistir">No podré asistir</option>
+                </select>
+                <textarea name="mensaje" rows="4" placeholder="Mensaje para los novios (opcional)" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold"></textarea>
+                <div class="text-center"><button type="submit" class="bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Enviar</button></div>
             </form>
-            <div id="song-feedback" class="text-center mt-4 font-bold"></div>
-          </div>
-        </div>
-      </section>
+            <div id="rsvp-feedback" class="text-center mt-6 font-bold text-white"></div>
+        </section>
+        
+        <!-- Lista de Regalos -->
+        <section class="my-20 text-center fade-in">
+            <i class="fas fa-gift fa-3x text-brand-gold mb-4"></i>
+            <h2 class="font-dancing text-6xl text-center mb-4">Lista de Regalos</h2>
+            <p class="text-xl max-w-lg mx-auto mb-10">Su presencia es nuestro mejor regalo, pero si desean tener un detalle con nosotros, aquí les dejamos algunas ideas.</p>
+            <div id="gift-list" class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <div class="col-span-full flex justify-center items-center h-40"><div class="loader"></div></div>
+            </div>
+        </section>
 
-      <!-- Más Información -->
-      <section class="my-20 text-center fade-in">
-        <i class="fas fa-info-circle fa-3x text-brand-gold mb-4"></i>
-        <h2 class="text-4xl font-bold tracking-widest mb-8">MÁS INFORMACIÓN</h2>
-        <div
-          class="flex flex-col md:flex-row justify-center items-center gap-4"
-        >
-          <button
-            data-modal="hoteles-modal"
-            class="modal-trigger bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300"
-          >
-            Hoteles cercanos
-          </button>
-          <button
-            data-modal="importante-modal"
-            class="modal-trigger bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300"
-          >
-            Importante
-          </button>
-          <button
-            data-modal="dudas-modal"
-            class="modal-trigger bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300"
-          >
-            ¿Dudas?
-          </button>
-        </div>
-      </section>
+        <!-- Sube tus fotos -->
+        <section class="my-20 text-center fade-in">
+            <i class="fas fa-camera-retro fa-3x text-brand-gold mb-4"></i>
+            <h2 class="font-dancing text-6xl text-center mb-4">Sube tus Fotos</h2>
+            <p class="text-xl max-w-md mx-auto mb-8">Sube y comparte con nosotros tus registros de fotos y videos en nuestro álbum colaborativo de bodas.</p>
+            <a href="#" id="album-link" target="_blank" class="inline-block bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Ir al Álbum <i class="fas fa-images ml-2"></i></a>
+        </section>
 
-      <footer class="text-center py-12 border-t border-brand-gold mt-12">
-        <p class="text-2xl">¡Te esperamos!</p>
-        <p class="font-dancing text-6xl text-brand-green">P & C</p>
-      </footer>
+        <!-- Música -->
+        <section class="my-20 text-center fade-in">
+            <i class="fas fa-music fa-3x text-brand-gold mb-4"></i>
+            <h2 class="font-dancing text-6xl text-center mb-4">Sé nuestro DJ</h2>
+            <p class="text-xl max-w-md mx-auto mb-8">Motívate y agrega los hits que no pueden faltar en el carrete con esta Playlist colaborativa de Spotify. ¡A bailar!</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center max-w-4xl mx-auto">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3iLBWhQiQv1zwxCdEZpnMo?utm_source=generator&theme=0" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <div class="p-8 rounded-lg bg-brand-green text-white">
+                    <h3 class="text-2xl font-bold mb-4">Sugiere una canción</h3>
+                     <form id="song-suggestion-form" class="space-y-4">
+                        <input type="text" name="cancion" placeholder="Canción y Artista" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold" required>
+                        <input type="text" name="nombre" placeholder="Tu nombre (opcional)" class="w-full p-3 rounded-lg bg-brand-beige text-brand-green placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-gold">
+                        <button type="submit" class="bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Agregar canción</button>
+                    </form>
+                    <div id="song-feedback" class="text-center mt-4 font-bold"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Más Información -->
+        <section class="my-20 text-center fade-in">
+            <i class="fas fa-info-circle fa-3x text-brand-gold mb-4"></i>
+            <h2 class="text-4xl font-bold tracking-widest mb-8">MÁS INFORMACIÓN</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                <button data-modal="hoteles-modal" class="modal-trigger bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Hoteles cercanos</button>
+                <button data-modal="importante-modal" class="modal-trigger bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">Importante</button>
+                <button data-modal="dudas-modal" class="modal-trigger bg-brand-beige hover:bg-opacity-80 text-brand-green font-bold py-3 px-10 rounded-lg transition duration-300">¿Dudas?</button>
+            </div>
+        </section>
+
+        <footer class="text-center py-12 border-t border-brand-gold mt-12">
+            <p class="text-2xl">¡Te esperamos!</p>
+            <p class="font-dancing text-6xl text-brand-green">P & C</p>
+        </footer>
     </div>
 
     <!-- Modal para Pago de Regalo -->
-    <div
-      id="payment-modal"
-      class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"
-    >
-      <div class="bg-white rounded-lg p-8 max-w-md w-full relative text-center">
-        <button
-          class="close-modal absolute top-2 right-4 text-2xl text-gray-500 hover:text-gray-800"
-        >
-          &times;
-        </button>
-        <i class="fas fa-gift fa-3x text-brand-gold mb-4"></i>
-        <h3 class="font-bold text-3xl mb-2">¡Gracias por tu regalo!</h3>
-        <p id="modal-gift-name" class="text-xl font-semibold mb-4"></p>
-        <p class="mb-6">
-          Puedes realizar la transferencia a la siguiente cuenta:
-        </p>
-        <div class="text-left bg-gray-100 p-4 rounded-lg text-gray-700">
-          <p><strong>Banco:</strong> Banco de Chile</p>
-          <p><strong>Titular:</strong> Carolina Rojas</p>
-          <p><strong>Tipo de Cuenta:</strong> Cuenta Corriente</p>
-          <p><strong>Número:</strong> 12345678-9</p>
-          <p><strong>RUT:</strong> 11.222.333-4</p>
-          <p><strong>Email:</strong> carolina.y.patricio@email.com</p>
-          <p class="mt-2 font-bold">
-            Monto: <span id="modal-gift-price"></span>
-          </p>
+    <div id="payment-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full relative text-center">
+            <button class="close-modal absolute top-2 right-4 text-2xl text-gray-500 hover:text-gray-800">&times;</button>
+            <i class="fas fa-gift fa-3x text-brand-gold mb-4"></i>
+            <h3 class="font-bold text-3xl mb-2">¡Gracias por tu regalo!</h3>
+            <p id="modal-gift-name" class="text-xl font-semibold mb-4"></p>
+            <p class="mb-6">Puedes realizar la transferencia a la siguiente cuenta:</p>
+            <div class="text-left bg-gray-100 p-4 rounded-lg text-gray-700">
+                <p><strong>Banco:</strong> Banco de Chile</p><p><strong>Titular:</strong> Carolina Rojas</p><p><strong>Tipo de Cuenta:</strong> Cuenta Corriente</p>
+                <p><strong>Número:</strong> 12345678-9</p><p><strong>RUT:</strong> 11.222.333-4</p><p><strong>Email:</strong> carolina.y.patricio@email.com</p>
+                <p class="mt-2 font-bold">Monto: <span id="modal-gift-price"></span></p>
+            </div>
+            <p class="text-sm mt-6 text-gray-500">Al confirmar, el regalo se marcará como obsequiado en la lista.</p>
+            <button id="confirm-gift-button" class="mt-4 w-full bg-brand-green hover:bg-opacity-80 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Confirmar Obsequio</button>
         </div>
-        <p class="text-sm mt-6 text-gray-500">
-          Al confirmar, el regalo se marcará como obsequiado en la lista.
-        </p>
-        <button
-          id="confirm-gift-button"
-          class="mt-4 w-full bg-brand-green hover:bg-opacity-80 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
-        >
-          Confirmar Obsequio
-        </button>
-      </div>
     </div>
 
     <!-- Modals de Más Información -->
-    <div
-      id="hoteles-modal"
-      class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"
-    >
-      <div class="bg-white rounded-lg p-8 max-w-md w-full relative">
-        <button class="close-modal absolute top-2 right-4 text-2xl">
-          &times;
-        </button>
-        <h3 class="font-bold text-2xl mb-4">Hoteles Cercanos</h3>
-        <p>
-          Aquí puedes listar algunas recomendaciones de hoteles para tus
-          invitados que vienen de fuera. Ejemplo: Hotel Santiago, Hotel W, etc.
-        </p>
-      </div>
-    </div>
-    <div
-      id="importante-modal"
-      class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"
-    >
-      <div class="bg-white rounded-lg p-8 max-w-md w-full relative">
-        <button class="close-modal absolute top-2 right-4 text-2xl">
-          &times;
-        </button>
-        <h3 class="font-bold text-2xl mb-4">Información Importante</h3>
-        <p>
-          Este espacio es para cualquier detalle adicional. Por ejemplo, si hay
-          estacionamiento, si la ceremonia es al aire libre, etc.
-        </p>
-      </div>
-    </div>
-    <div
-      id="dudas-modal"
-      class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"
-    >
-      <div class="bg-white rounded-lg p-8 max-w-md w-full relative">
-        <button class="close-modal absolute top-2 right-4 text-2xl">
-          &times;
-        </button>
-        <h3 class="font-bold text-2xl mb-4">¿Dudas?</h3>
-        <p>
-          Para cualquier consulta, no dudes en contactarnos al siguiente número:
-          +56 9 1234 5678 (Carolina).
-        </p>
-      </div>
-    </div>
+    <div id="hoteles-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"><div class="bg-white rounded-lg p-8 max-w-md w-full relative"><button class="close-modal absolute top-2 right-4 text-2xl">&times;</button><h3 class="font-bold text-2xl mb-4">Hoteles Cercanos</h3><p>Aquí puedes listar algunas recomendaciones de hoteles para tus invitados que vienen de fuera. Ejemplo: Hotel Santiago, Hotel W, etc.</p></div></div>
+    <div id="importante-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"><div class="bg-white rounded-lg p-8 max-w-md w-full relative"><button class="close-modal absolute top-2 right-4 text-2xl">&times;</button><h3 class="font-bold text-2xl mb-4">Información Importante</h3><p>Este espacio es para cualquier detalle adicional. Por ejemplo, si hay estacionamiento, si la ceremonia es al aire libre, etc.</p></div></div>
+    <div id="dudas-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden"><div class="bg-white rounded-lg p-8 max-w-md w-full relative"><button class="close-modal absolute top-2 right-4 text-2xl">&times;</button><h3 class="font-bold text-2xl mb-4">¿Dudas?</h3><p>Para cualquier consulta, no dudes en contactarnos al siguiente número: +56 9 1234 5678 (Carolina).</p></div></div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
         // ==================================================================
         // CONFIGURACIÓN
-        const SCRIPT_URL =
-          'https://script.google.com/macros/s/AKfycbw4dIM4DWY8A5k28X4_gaejGiqYzsDzxrYeIytT5hPeRr3Dv8A_A6UsEtUNle4lxzoG/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4dIM4DWY8A5k28X4_gaejGiqYzsDzxrYeIytT5hPeRr3Dv8A_A6UsEtUNle4lxzoG/exec'; 
         // ==================================================================
 
         let groupedGifts = [];
         let rawGifts = [];
 
         // --- LÓGICA DEL CONTADOR ---
-        const weddingDate = new Date('Feb 21, 2026 18:00:00').getTime();
+        const weddingDate = new Date('Oct 25, 2025 18:00:00').getTime();
         const countdownInterval = setInterval(() => {
-          const now = new Date().getTime();
-          const distance = weddingDate - now;
-          if (distance < 0) {
-            clearInterval(countdownInterval);
-            document.getElementById('countdown-section').innerHTML =
-              '<h2 class="text-3xl font-bold text-center text-brand-gold">¡Llegó el gran día!</h2>';
-            return;
-          }
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          );
-          const minutes = Math.floor(
-            (distance % (1000 * 60 * 60)) / (1000 * 60)
-          );
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          document.getElementById('days').innerText = String(days).padStart(
-            2,
-            '0'
-          );
-          document.getElementById('hours').innerText = String(hours).padStart(
-            2,
-            '0'
-          );
-          document.getElementById('minutes').innerText = String(
-            minutes
-          ).padStart(2, '0');
-          document.getElementById('seconds').innerText = String(
-            seconds
-          ).padStart(2, '0');
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown-section').innerHTML = '<h2 class="text-3xl font-bold text-center text-brand-gold">¡Llegó el gran día!</h2>';
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
         }, 1000);
 
         // --- LÓGICA DEL CARRUSEL ---
@@ -554,22 +267,24 @@
         const nextButton = document.querySelector('.carousel-button.next');
         const prevButton = document.querySelector('.carousel-button.prev');
         const slideWidth = slides[0].getBoundingClientRect().width;
-        
+
         const setSlidePosition = (slide, index) => {
-          slide.style.left = slideWidth * index + 'px';
+            slide.style.left = slideWidth * index + 'px';
         };
         // slides.forEach(setSlidePosition); // No es necesario con Flexbox
+
         let currentSlide = 0;
-        
+
         nextButton.addEventListener('click', e => {
-          currentSlide = (currentSlide + 1) % slides.length;
-          track.style.transform = 'translateX(-' + (slideWidth * currentSlide) + 'px)';
+            currentSlide = (currentSlide + 1) % slides.length;
+            track.style.transform = 'translateX(-' + (slideWidth * currentSlide) + 'px)';
         });
-        
+
         prevButton.addEventListener('click', e => {
-          currentSlide = (currentSlide - 1 + slides.length) % slides.length;.
-          track.style.transform = 'translateX(-' + (slideWidth * currentSlide) + 'px)';
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            track.style.transform = 'translateX(-' + (slideWidth * currentSlide) + 'px)';
         });
+
 
         // --- LÓGICA DE REGALOS POR FILAS ---
         const giftListContainer = document.getElementById('gift-list');
@@ -577,227 +292,171 @@
         let currentGiftName = null;
 
         function renderGifts() {
-          if (groupedGifts.length === 0) {
-            giftListContainer.innerHTML =
-              '<p class="col-span-full text-center">No hay regalos en la lista por el momento.</p>';
-            return;
-          }
-          giftListContainer.innerHTML = '';
-          groupedGifts.forEach((gift) => {
-            const isAvailable = gift.availableCount > 0;
-            const card = `
+            if (groupedGifts.length === 0) {
+                giftListContainer.innerHTML = '<p class="col-span-full text-center">No hay regalos en la lista por el momento.</p>';
+                return;
+            }
+            giftListContainer.innerHTML = '';
+            groupedGifts.forEach(gift => {
+                const isAvailable = gift.availableCount > 0;
+                const card = `
                     <div class="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between">
                         <div>
-                            <h3 class="text-2xl font-semibold text-brand-green">${
-                              gift.nombre
-                            }</h3>
-                            <p class="text-xl text-brand-gold my-2">$${parseInt(
-                              gift.precio
-                            ).toLocaleString('es-CL')}</p>
-                            <p class="text-sm text-gray-500 mb-4">Disponibles: ${
-                              gift.availableCount
-                            }</p>
+                            <h3 class="text-2xl font-semibold text-brand-green">${gift.nombre}</h3>
+                            <p class="text-xl text-brand-gold my-2">$${parseInt(gift.precio).toLocaleString('es-CL')}</p>
+                            <p class="text-sm text-gray-500 mb-4">Disponibles: ${gift.availableCount}</p>
                         </div>
-                        <button class="gift-button mt-auto w-full font-bold py-3 px-6 rounded-lg transition duration-300 ${
-                          isAvailable
-                            ? 'bg-brand-green text-white hover:bg-opacity-80'
-                            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                        }"
-                            data-name="${gift.nombre}" ${
-              !isAvailable ? 'disabled' : ''
-            }>
+                        <button class="gift-button mt-auto w-full font-bold py-3 px-6 rounded-lg transition duration-300 ${isAvailable ? 'bg-brand-green text-white hover:bg-opacity-80' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}"
+                            data-name="${gift.nombre}" ${!isAvailable ? 'disabled' : ''}>
                             ${isAvailable ? 'Regalar' : 'Agotado'}
                         </button>
                     </div>`;
-            giftListContainer.innerHTML += card;
-          });
+                giftListContainer.innerHTML += card;
+            });
         }
 
         function groupAndCountGifts(gifts) {
-          const giftMap = new Map();
-          gifts.forEach((gift) => {
-            if (!gift.nombre) return;
-
-            if (!giftMap.has(gift.nombre)) {
-              giftMap.set(gift.nombre, {
-                nombre: gift.nombre,
-                precio: gift.precio,
-                availableCount: 0,
-              });
-            }
-
-            if (gift.estado === 'Disponible') {
-              giftMap.get(gift.nombre).availableCount++;
-            }
-          });
-          return Array.from(giftMap.values());
+            const giftMap = new Map();
+            gifts.forEach(gift => {
+                if (!gift.nombre) return;
+                
+                if (!giftMap.has(gift.nombre)) {
+                    giftMap.set(gift.nombre, {
+                        nombre: gift.nombre,
+                        precio: gift.precio,
+                        availableCount: 0
+                    });
+                }
+                
+                if (gift.estado === 'Disponible') {
+                    giftMap.get(gift.nombre).availableCount++;
+                }
+            });
+            return Array.from(giftMap.values());
         }
 
         async function fetchGifts() {
-          try {
-            const response = await fetch(SCRIPT_URL);
-            if (!response.ok)
-              throw new Error(`Error de red: ${response.statusText}`);
-            const result = await response.json();
-            if (result.success) {
-              rawGifts = result.data;
-              groupedGifts = groupAndCountGifts(rawGifts);
-              renderGifts();
-            } else {
-              throw new Error(result.message || 'La API devolvió un error.');
+            try {
+                const response = await fetch(SCRIPT_URL);
+                if (!response.ok) throw new Error(`Error de red: ${response.statusText}`);
+                const result = await response.json();
+                if (result.success) {
+                    rawGifts = result.data;
+                    groupedGifts = groupAndCountGifts(rawGifts);
+                    renderGifts();
+                } else { throw new Error(result.message || 'La API devolvió un error.'); }
+            } catch (error) {
+                console.error('Error al cargar regalos:', error);
+                giftListContainer.innerHTML = `<p class="col-span-full text-center text-red-500">No se pudo cargar la lista de regalos.</p>`;
             }
-          } catch (error) {
-            console.error('Error al cargar regalos:', error);
-            giftListContainer.innerHTML = `<p class="col-span-full text-center text-red-500">No se pudo cargar la lista de regalos.</p>`;
-          }
         }
 
         giftListContainer.addEventListener('click', (e) => {
-          if (e.target.classList.contains('gift-button')) {
-            currentGiftName = e.target.dataset.name;
-            const gift = groupedGifts.find((g) => g.nombre === currentGiftName);
-            if (gift) {
-              document.getElementById('modal-gift-name').innerText =
-                gift.nombre;
-              document.getElementById(
-                'modal-gift-price'
-              ).innerText = `$${parseInt(gift.precio).toLocaleString('es-CL')}`;
-              paymentModal.classList.remove('hidden');
+            if (e.target.classList.contains('gift-button')) {
+                currentGiftName = e.target.dataset.name;
+                const gift = groupedGifts.find(g => g.nombre === currentGiftName);
+                if (gift) {
+                    document.getElementById('modal-gift-name').innerText = gift.nombre;
+                    document.getElementById('modal-gift-price').innerText = `$${parseInt(gift.precio).toLocaleString('es-CL')}`;
+                    paymentModal.classList.remove('hidden');
+                }
             }
-          }
         });
 
-        // --- LÓGICA DE FORMULARIOS Y POST (VERSIÓN FINAL) ---
+        // --- LÓGICA DE FORMULARIOS Y POST ---
         async function postData(data) {
-          try {
-            // Usamos 'no-cors' para evitar el error de preflight,
-            // ya que no necesitamos leer la respuesta del POST.
-            const response = await fetch(SCRIPT_URL, {
-              method: 'POST',
-              mode: 'no-cors',
-              redirect: 'follow',
-              headers: {
-                'Content-Type': 'text/plain;charset=utf-8',
-              },
-              body: JSON.stringify(data),
-            });
-            return { success: true };
-          } catch (error) {
-            console.error('Error en postData:', error);
-            return { success: false, message: error.message };
-          }
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!response.ok) throw new Error(`Error del servidor: ${response.statusText}`);
+                const result = await response.json();
+                if (!result.success) throw new Error(result.message || 'El script devolvió un error.');
+                return { success: true };
+            } catch (error) {
+                console.error("Error en postData:", error);
+                return { success: false, message: error.message };
+            }
         }
 
-        document
-          .getElementById('confirm-gift-button')
-          .addEventListener('click', async () => {
+        document.getElementById('confirm-gift-button').addEventListener('click', async () => {
             const button = document.getElementById('confirm-gift-button');
             button.disabled = true;
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-            const result = await postData({
-              action: 'updateGift',
-              name: currentGiftName,
-            });
-
+            
+            const result = await postData({ action: 'updateGift', name: currentGiftName });
+            
             if (result.success) {
-              paymentModal.classList.add('hidden');
-              // Asumimos que funcionó y actualizamos la UI inmediatamente
-              // para una mejor experiencia de usuario.
-              const giftIndex = groupedGifts.findIndex(
-                (g) => g.nombre === currentGiftName
-              );
-              if (giftIndex !== -1) {
-                groupedGifts[giftIndex].availableCount--;
-              }
-              renderGifts();
-              // Opcionalmente, recargamos desde el servidor para asegurar consistencia
-              setTimeout(fetchGifts, 1000);
+                paymentModal.classList.add('hidden');
+                setTimeout(fetchGifts, 500); // Recargar la lista para ver el cambio real
             } else {
-              alert(`Hubo un error al confirmar el regalo: ${result.message}`);
+                alert(`Hubo un error al confirmar el regalo: ${result.message}`);
+            }
+            
+            button.disabled = false;
+            button.innerHTML = 'Confirmar Obsequio';
+        });
+
+        async function handleFormSubmit(form, feedbackElement, action) {
+            const button = form.querySelector('button[type="submit"]');
+            const originalButtonText = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            data.action = action;
+            
+            const result = await postData(data);
+            
+            if (result.success) {
+                feedbackElement.textContent = '¡Gracias, hemos recibido tu mensaje!';
+                form.reset();
+            } else {
+                feedbackElement.textContent = 'Hubo un error. Inténtalo de nuevo.';
             }
 
             button.disabled = false;
-            button.innerHTML = 'Confirmar Obsequio';
-          });
-
-        async function handleFormSubmit(form, feedbackElement, action) {
-          const button = form.querySelector('button[type="submit"]');
-          const originalButtonText = button.innerHTML;
-          button.disabled = true;
-          button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-          const formData = new FormData(form);
-          const data = Object.fromEntries(formData.entries());
-          data.action = action;
-
-          const result = await postData(data);
-
-          if (result.success) {
-            feedbackElement.textContent =
-              '¡Gracias, hemos recibido tu mensaje!';
-            form.reset();
-          } else {
-            feedbackElement.textContent = 'Hubo un error. Inténtalo de nuevo.';
-          }
-
-          button.disabled = false;
-          button.innerHTML = originalButtonText;
-          setTimeout(() => {
-            feedbackElement.textContent = '';
-          }, 5000);
+            button.innerHTML = originalButtonText;
+            setTimeout(() => { feedbackElement.textContent = ''; }, 5000);
         }
 
         document.getElementById('rsvp-form').addEventListener('submit', (e) => {
-          e.preventDefault();
-          handleFormSubmit(
-            e.target,
-            document.getElementById('rsvp-feedback'),
-            'rsvp'
-          );
+            e.preventDefault();
+            handleFormSubmit(e.target, document.getElementById('rsvp-feedback'), 'rsvp');
         });
 
-        document
-          .getElementById('song-suggestion-form')
-          .addEventListener('submit', (e) => {
+        document.getElementById('song-suggestion-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            handleFormSubmit(
-              e.target,
-              document.getElementById('song-feedback'),
-              'suggestSong'
-            );
-          });
+            handleFormSubmit(e.target, document.getElementById('song-feedback'), 'suggestSong');
+        });
 
         // --- LÓGICA DE MODALES ---
         const modalTriggers = document.querySelectorAll('.modal-trigger');
-        const closeModals = document.querySelectorAll(
-          '.close-modal, .modal-overlay'
-        );
-        modalTriggers.forEach((trigger) => {
-          trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            document
-              .getElementById(trigger.getAttribute('data-modal'))
-              .classList.remove('hidden');
-          });
+        const closeModals = document.querySelectorAll('.close-modal, .modal-overlay');
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById(trigger.getAttribute('data-modal')).classList.remove('hidden');
+            });
         });
-        closeModals.forEach((closer) => {
-          closer.addEventListener('click', (e) => {
-            if (
-              e.target === closer ||
-              closer.classList.contains('close-modal')
-            ) {
-              closer.closest('.modal-overlay').classList.add('hidden');
-            }
-          });
+        closeModals.forEach(closer => {
+            closer.addEventListener('click', (e) => {
+                if (e.target === closer || closer.classList.contains('close-modal')) {
+                    closer.closest('.modal-overlay').classList.add('hidden');
+                }
+            });
         });
-
+        
         fetchGifts();
-      });
+    });
     </script>
-  </body>
-</html>
 
+</body>
+</html>
 
 
 
